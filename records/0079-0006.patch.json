@@ -1,0 +1,122 @@
+{
+ "apiVersion": "openjoystickdriver/v1alpha2",
+ "kind": "ControllerPatch",
+ "selector": {
+  "vendorID": 121,
+  "productID": 6
+ },
+ "patch": {
+  "server": "OJD",
+  "input": {
+   "layouts": [
+    {
+     "axes": [
+      {
+       "bitOffset": 0,
+       "bitSize": 8,
+       "control": "LeftStickX"
+      },
+      {
+       "bitOffset": 8,
+       "bitSize": 8,
+       "control": "LeftStickY"
+      },
+      {
+       "bitOffset": 24,
+       "bitSize": 8,
+       "control": "RightStickX"
+      },
+      {
+       "bitOffset": 32,
+       "bitSize": 8,
+       "control": "RightStickY"
+      }
+     ],
+     "hat": [
+      {
+       "encoding": "EightWay",
+       "bitOffset": 40,
+       "bitSize": 4
+      }
+     ],
+     "buttons": [
+      {
+       "bitOffset": 44,
+       "bitSize": 1,
+       "control": "North"
+      },
+      {
+       "bitOffset": 45,
+       "bitSize": 1,
+       "control": "East"
+      },
+      {
+       "bitOffset": 46,
+       "bitSize": 1,
+       "control": "South"
+      },
+      {
+       "bitOffset": 47,
+       "bitSize": 1,
+       "control": "West"
+      },
+      {
+       "bitOffset": 48,
+       "bitSize": 1,
+       "control": "LeftShoulder"
+      },
+      {
+       "bitOffset": 49,
+       "bitSize": 1,
+       "control": "RightShoulder"
+      },
+      {
+       "bitOffset": 50,
+       "bitSize": 1,
+       "control": "LeftTrigger"
+      },
+      {
+       "bitOffset": 51,
+       "bitSize": 1,
+       "control": "RightTrigger"
+      },
+      {
+       "bitOffset": 52,
+       "bitSize": 1,
+       "control": "Back"
+      },
+      {
+       "bitOffset": 53,
+       "bitSize": 1,
+       "control": "Start"
+      },
+      {
+       "bitOffset": 54,
+       "bitSize": 1,
+       "control": "LeftStickClick"
+      },
+      {
+       "bitOffset": 55,
+       "bitSize": 1,
+       "control": "RightStickClick"
+      }
+     ],
+     "report": {
+      "length": {
+       "atLeast": 8
+      }
+     }
+    }
+   ],
+   "hidUsageMap": null
+  },
+  "modes": [
+   {
+    "id": "default",
+    "protocol": {
+     "family": "HIDReportLayout"
+    }
+   }
+  ]
+ }
+}
