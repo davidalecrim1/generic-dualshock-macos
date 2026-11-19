@@ -109,11 +109,33 @@ bypasses the descriptor and declares raw bit offsets.
 | RightStickX | 24 | 8 |
 | RightStickY | 32 | 8 |
 | hat (EightWay) | 40 | 4 |
-| buttons 1-12 | 44-55 | 1 each |
+| North / East / South / West (Triangle, Circle, Cross, Square) | 44-47 | 1 each |
+| LeftShoulder / RightShoulder (L1, R1) | 48-49 | 1 each |
+| LeftTrigger / RightTrigger (L2, R2) | 50-51 | 1 each, analog 0..1 |
+| Back / Start | 52-53 | 1 each |
+| LeftStickClick / RightStickClick | 54-55 | 1 each |
 | report length | at least 8 bytes | |
 
 `server: OJD` is required, otherwise OJD defers to macOS, which claims the pad
 through the Apple bug above and never uses it.
+
+### Triggers must be declared as triggers, not as buttons
+
+L2 and R2 are single bits, so the obvious move is to list them in `buttons` as
+`LeftTrigger` and `RightTrigger`. That publishes a digital button, and a button
+cannot move the analog trigger axis that SDL and gamepad APIs expose. The
+symptom is confusing: the triggers work when OJD is not running (raw pad), and
+die the moment it is.
+
+Declare them as analog instead, with the full range of a one-bit field:
+
+```json
+"leftTrigger":  { "bitOffset": 50, "bitSize": 1, "min": 0, "max": 1 },
+"rightTrigger": { "bitOffset": 51, "bitSize": 1, "min": 0, "max": 1 }
+```
+
+`ojd controller watch` then reports `leftTrigger=65535` on a full press. There is
+no half-press on this hardware; the pad sends one bit per trigger.
 
 ## 5. Install
 
@@ -155,8 +177,13 @@ ojd controller watch 0079:0006 --duration 20
 
 - Left stick left/right must change only `LeftStickX`.
 - Right stick left/right must change only `RightStickX`.
+- L2 and R2 must report `leftTrigger` / `rightTrigger` as `65535`, not as an entry in `pressed`.
 - Also check System Settings → Game Controllers, and a second app (RPCS3, Steam)
   to confirm the fix is not emulator-specific.
+
+If the triggers were bound before this record was corrected, PCSX2 keeps the old
+binding and they stay dead. Right-click the L2 and R2 fields to clear them, then
+bind again.
 
 ## 7. Revert / uninstall
 
